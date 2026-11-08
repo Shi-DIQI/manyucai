@@ -1,188 +1,39 @@
-<html lang="zh-CN">
-<head>
-    <meta charset="UTF-8">
-    <title>To-Hu晓然---TCF-My才-</title>
-    <style>
-        .home-page {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100vw;
-            height: 100vh;
-            background-color: #000;
-            z-index: 10001;
-            transition: opacity 0.5s ease;
-        }
-        .home-text1 {
-            position: absolute;
-            top: 30%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            font-family: "微软雅黑", sans-serif;
-            font-size: 28px;
-            color: #ff4466;
-            font-weight: bold;
-        }
-        .home-text2 {
-            position: absolute;
-            top: 60%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            font-family: "微软雅黑", sans-serif;
-            font-size: 24px;
-            color: #ffffff;
-            font-weight: normal;
-        }
-        .typewriter-text {
-            position: fixed;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            font-family: "微软雅黑", sans-serif;
-            font-size: 32px;
-            font-weight: bold;
-            color: #ff4466;
-            z-index: 10000;
-            opacity: 1;
-            transition: opacity 0.5s ease;
-        }
-        .popup {
-            position: fixed;
-            padding: 15px 20px;
-            border-radius: 8px;
-            font-family: "微软雅黑", sans-serif;
-            font-size: 18px;
-            font-weight: bold;
-            color: #ffffff; /* 改为白色，黑色背景更醒目 */
-            z-index: 9999;
-            cursor: default;
-            box-shadow: 0 2px 10px rgba(255,68,102,0.3); /* 粉色阴影更协调 */
-            transition: all 0.3s ease;
-        }
-        body {
-            margin: 0;
-            padding: 0;
-            background-color: #000;
-            overflow: hidden;
-        }
-    </style>
-</head>
-<body>
-    <!-- 背景音乐：自动播放+循环+预加载 -->
-    <audio id="bgMusic" preload="auto" loop>
-        <source src="https://d.uguu.se/QheTRNwN.mp3"audio/wav">
-        <source src="" type="audio/mpeg">
-        您的浏览器不支持音频播放，请升级浏览器
-    </audio>
-    <!-- 首页 -->
-    <div class="home-page" id="homePage">
-        <div class="home-text1">欢迎进入......</div>
-        <div class="home-text2">---项目由ManYUCai完成---</div>
-    </div>
+# manyucai
 
-    <!-- 打字机文字容器 -->
-    <div class="typewriter-text" id="typewriter"></div>
+一个表白祝福网页：开场后打字机逐字打出句子，随后爱心形状的弹窗依次浮现，展示留言文案。
 
-    <script>
-        // 背景音乐自动播放处理
-        const bgMusic = document.getElementById('bgMusic');
-        
-        // 尝试自动播放
-        bgMusic.play().catch(() => {
-            // 如果自动播放失败，等待用户交互
-            document.addEventListener('click', function unlockAudio() {
-                bgMusic.play().catch(err => console.log('音频播放失败:', err));
-                document.removeEventListener('click', unlockAudio);
-            }, { once: true });
-            
-            document.addEventListener('touchstart', function unlockAudio() {
-                bgMusic.play().catch(err => console.log('音频播放失败:', err));
-                document.removeEventListener('touchstart', unlockAudio);
-            }, { once: true });
-        });
+## 文件说明
 
-        // 首页逻辑
-        const homePage = document.getElementById("homePage");
-        function startHomePage() {
-            setTimeout(() => {
-                homePage.style.opacity = 0;
-                setTimeout(() => {
-                    homePage.remove();
-                    typeWriter(typeText);
-                }, 500);
-            }, 2000);
-        }
+| 文件 | 说明 |
+|------|------|
+| `To HXRan.html` | 网页主文件（样式与脚本都已内嵌在里面） |
+| `music/` | 背景音乐目录，把音乐文件放到这里 |
 
-        // 打字机配置
-        const typeText = "见山是山，见海是海，见你便是全世界";
-        const typeSpeed = 150;
-        const typewriterEl = document.getElementById("typewriter");
+## 在线访问
 
-        function typeWriter(text, index = 0) {
-            if (index < text.length) {
-                typewriterEl.textContent += text.charAt(index);
-                setTimeout(() => typeWriter(text, index + 1), typeSpeed);
-            } else {
-                setTimeout(() => {
-                    typewriterEl.style.opacity = 0;
-                    setTimeout(() => typewriterEl.remove(), 500);
-                    main();
-                }, 1000);
-            }
-        }
+https://shi-diqi.github.io/manyucai/To%20HXRan.html
 
-        // 爱心弹窗核心逻辑
-        const texts = [
-            '我想你了', '超喜欢你呀', '念你的每一天', '你是我的偏爱',
-            '满心都是你', '见你才欢喜', '想和你贴贴', '思念藏不住',
-            '今天也想你', '余生皆是你','想和你一年又一年'
-        ];
+## 怎么换背景音乐
 
-        function getRandomBgColor() {
-            const r = Math.floor(Math.random() * 0x34) + 0xCC;
-            const g = Math.floor(Math.random() * 0x34) + 0xCC;
-            const b = Math.floor(Math.random() * 0x34) + 0xCC;
-            return `rgb(${r}, ${g}, ${b})`;
-        }
+1. 把音乐文件（推荐 `.mp3`）放到 `music/` 目录，默认文件名 `bgm.mp3`。
+2. 打开 `To HXRan.html`，找到 `<audio>` 标签里的：
 
-        function getHeartPosition(scale) {
-            const t = Math.random() * 2 * Math.PI;
-            const xHeart = 16 * Math.pow(Math.sin(t), 3);
-            const yHeart = 13 * Math.cos(t) - 5 * Math.cos(2*t) - 2 * Math.cos(3*t) - Math.cos(4*t);
-            const screenWidth = window.innerWidth;
-            const screenHeight = window.innerHeight;
-            const x = screenWidth / 2 + xHeart * scale;
-            const y = screenHeight / 2 - yHeart * scale;
-            return { x, y };
-        }
+   ```html
+   <source src="music/bgm.mp3" type="audio/mpeg">
+   ```
 
-        function createPopup() {
-            const popup = document.createElement('div');
-            popup.className = 'popup';
-            popup.textContent = texts[Math.floor(Math.random() * texts.length)];
-            popup.style.backgroundColor = getRandomBgColor();
-            const { x, y } = getHeartPosition(20);
-            popup.style.left = `${x}px`;
-            popup.style.top = `${y}px`;
-            document.body.appendChild(popup);
-            setTimeout(() => {
-                popup.style.opacity = 0;
-                setTimeout(() => popup.remove(), 300);
-            }, 3000);
-        }
+3. 如果文件名或格式不同，同步修改 `src` 和 `type`：
 
-        function main() {
-            console.log("正在启动爱心祝福程序 。 。 。");
-            let count = 0;
-            const interval = setInterval(() => {
-                createPopup();
-                count++;
-                if (count >= 520) clearInterval(interval);
-            }, 50);
-        }
+   | 格式 | type 写法 |
+   |------|-----------|
+   | MP3  | `audio/mpeg` |
+   | WAV  | `audio/wav` |
+   | OGG  | `audio/ogg` |
+   | M4A  | `audio/mp4` |
 
-        // 页面加载后先启动首页
-        window.onload = startHomePage;
-    </script>
-</body>
-</html>
+- `loop` 表示循环播放；删掉则只播一遍。
+- 浏览器通常禁止页面一打开就自动出声，首次点击或触摸页面后音乐才会响起，这是正常现象。
+
+## 怎么改弹窗文案
+
+在 `To HXRan.html` 的 `<script>` 里找到 `const texts = [...]` 数组，直接修改里面的句子即可。
